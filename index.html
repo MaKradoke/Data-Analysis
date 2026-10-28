@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="th" class="h-full bg-slate-900 text-slate-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Womenswear Analytics & Data Storytelling Hub</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="tailwind-config.js"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <!-- SheetJS for processing Excel files in browser -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- Google Fonts: Prompt -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="h-full flex flex-col font-sans antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Header / Navbar -->
+    <header class="h-16 border-b border-slate-800 glass-panel sticky top-0 z-50 flex items-center justify-between px-6">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-brand-500/20">
+                <i class="fa-solid fa-chart-line text-white text-lg"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-base md:text-lg tracking-wide text-white">Womenswear Analytics Hub</h1>
+                <p class="text-xs text-slate-400">Excel Backend & Tableau Frontend Storytelling</p>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <nav class="flex items-center space-x-1 md:space-x-2 bg-slate-950/60 p-1.5 rounded-xl border border-slate-800 overflow-x-auto max-w-[60vw] whitespace-nowrap">
+            <button onclick="switchTab('overview')" id="nav-overview" class="px-3 md:px-4 py-1.5 rounded-lg text-xs md:text-sm font-medium transition-all duration-200 bg-brand-600 text-white shadow-md">
+                <i class="fa-solid fa-chart-pie mr-1.5"></i>วิเคราะห์ข้อมูล Excel
+            </button>
+            <button onclick="switchTab('reviews')" id="nav-reviews" class="px-3 md:px-4 py-1.5 rounded-lg text-xs md:text-sm font-medium transition-all duration-200 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-comments mr-1.5"></i>รีวิวลูกค้า
+            </button>
+            <button onclick="switchTab('stats')" id="nav-stats" class="px-3 md:px-4 py-1.5 rounded-lg text-xs md:text-sm font-medium transition-all duration-200 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-square-root-variable mr-1.5"></i>สถิติเชิงอนุมาน
+            </button>
+            <button onclick="switchTab('tableau')" id="nav-tableau" class="px-3 md:px-4 py-1.5 rounded-lg text-xs md:text-sm font-medium transition-all duration-200 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-table-cells mr-1.5"></i>Tableau Dashboard
+            </button>
+            <button onclick="switchTab('insights')" id="nav-insights" class="px-3 md:px-4 py-1.5 rounded-lg text-xs md:text-sm font-medium transition-all duration-200 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-lightbulb mr-1.5"></i>Data Storytelling
+            </button>
+        </nav>
+
+        <!-- Status Pill -->
+        <div class="hidden lg:flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full text-xs text-emerald-400 font-medium">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span> Cleaned Dataset Active</span>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 overflow-y-auto p-4 md:p-6 space-y-6">
+
+        <!-- ==================== TAB 1: OVERVIEW & EXCEL ANALYTICS ==================== -->
+        <section id="tab-overview" class="space-y-6">
+
+            <!-- Upload Box -->
+            <div id="uploadBox" class="glass-panel p-6 rounded-2xl relative border-2 border-dashed border-slate-700 hover:border-brand-500 transition-colors duration-300">
+                <input type="file" id="excelFileInput" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleFileUpload(event)">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-4 cursor-pointer" onclick="document.getElementById('excelFileInput').click()">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center text-brand-500 text-xl md:text-2xl flex-shrink-0">
+                            <i class="fa-solid fa-file-excel"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-base md:text-lg text-white">อัปโหลดไฟล์ Excel / CSV เพื่ออัปเดตข้อมูลวิเคราะห์</h3>
+                            <p class="text-xs md:text-sm text-slate-400">ลากไฟล์มาวาง หรือคลิกเพื่อเลือกไฟล์ (`Womens Clothing E-Commerce Reviews.xlsx`)</p>
+                        </div>
+                    </div>
+                    <button type="button" class="px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-medium text-xs md:text-sm transition-all shadow-lg shadow-brand-600/30 flex items-center space-x-2">
+                        <i class="fa-solid fa-upload"></i>
+                        <span>เลือกไฟล์ข้อมูล</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Loaded file status + remove button -->
+            <div id="fileStatus" class="hidden glass-panel px-5 py-3 rounded-2xl flex items-center justify-between gap-3 border border-emerald-500/30">
+                <div class="flex items-center gap-3 min-w-0">
+                    <i class="fa-solid fa-file-circle-check text-emerald-400 text-lg"></i>
+                    <div class="min-w-0">
+                        <p id="fileStatusName" class="text-sm font-medium text-white truncate"></p>
+                        <p id="fileStatusInfo" class="text-xs text-slate-400"></p>
+                    </div>
+                </div>
+                <button type="button" onclick="removeFile()" class="px-4 py-2 rounded-xl bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/30 text-xs md:text-sm font-medium transition-all flex items-center gap-2 flex-shrink-0">
+                    <i class="fa-solid fa-trash-can"></i>
+                    <span>ลบไฟล์ข้อมูล</span>
+                </button>
+            </div>
+
+            <!-- Empty state: shown until a data file is loaded -->
+            <div class="data-empty glass-panel rounded-2xl p-10 md:p-16 text-center flex flex-col items-center space-y-4">
+                <div class="w-16 h-16 rounded-2xl bg-slate-800/80 border border-slate-700 flex items-center justify-center text-slate-400 text-3xl">
+                    <i class="fa-solid fa-inbox"></i>
+                </div>
+                <h3 class="text-lg md:text-xl font-bold text-white">ยังไม่มีข้อมูลเข้ามา</h3>
+                <p class="text-xs md:text-sm text-slate-400 max-w-md">
+                    อัปโหลดไฟล์ Excel หรือ CSV ที่ช่องด้านบน แล้วหน้ารายงานจะแสดงผลทันที
+                </p>
+            </div>
+
+            <div class="data-report hidden space-y-6">
+            <!-- Executive KPI Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="glass-panel p-5 rounded-2xl flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">คะแนนรีวิวเฉลี่ย (Avg Rating)</p>
+                        <h2 class="text-3xl font-extrabold text-white mt-1" id="kpi-rating">– <span class="text-sm text-amber-400">★</span></h2>
+                        <p class="text-xs text-emerald-400 mt-1"><i class="fa-solid fa-arrow-trend-up mr-1"></i>เกณฑ์ระดับสูง</p>
+                    </div>
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-xl">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-5 rounded-2xl flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">อัตราการแนะนำต่อ (Rec. Rate)</p>
+                        <h2 class="text-3xl font-extrabold text-white mt-1" id="kpi-recommend">–</h2>
+                        <p class="text-xs text-emerald-400 mt-1"><i class="fa-solid fa-thumbs-up mr-1"></i>ลูกค้าพึงพอใจ</p>
+                    </div>
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl">
+                        <i class="fa-solid fa-heart font-bold"></i>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-5 rounded-2xl flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">จำนวนรีวิวทั้งหมด (Total Reviews)</p>
+                        <h2 class="text-3xl font-extrabold text-white mt-1" id="kpi-reviews">–</h2>
+                        <p class="text-xs text-slate-400 mt-1">ข้อมูลในระบบ</p>
+                    </div>
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 text-xl">
+                        <i class="fa-solid fa-comments"></i>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-5 rounded-2xl flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">หมวดหมู่ยอดนิยม (Top Department)</p>
+                        <h2 class="text-3xl font-extrabold text-white mt-1" id="kpi-topdept">–</h2>
+                        <p id="kpi-topdept-pct" class="text-xs text-slate-400 mt-1">–</p>
+                    </div>
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-xl">
+                        <i class="fa-solid fa-shirt"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Chart 1: Department Statistics -->
+                <div class="glass-panel p-5 rounded-2xl">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-white text-sm md:text-base flex items-center gap-2">
+                            <i class="fa-solid fa-chart-column text-brand-500"></i> คะแนนรีวิวและอัตราการแนะนำแยกตาม Department
+                        </h3>
+                    </div>
+                    <div class="h-72">
+                        <canvas id="deptChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 2: Age Demographics Distribution -->
+                <div class="glass-panel p-5 rounded-2xl">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-white text-sm md:text-base flex items-center gap-2">
+                            <i class="fa-solid fa-users text-indigo-400"></i> สัดส่วนและระดับคะแนนตามกลุ่มอายุ (Age Demographics)
+                        </h3>
+                    </div>
+                    <div class="h-72">
+                        <canvas id="ageChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Table Preview -->
+            <div class="glass-panel p-5 rounded-2xl">
+                <h3 class="font-bold text-white text-sm md:text-base mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-table text-emerald-400"></i> ตัวอย่างข้อมูลที่ผ่านการ Clean ใน Excel (Sample Cleaned Data)
+                </h3>
+                <div class="overflow-x-auto rounded-xl border border-slate-800">
+                    <table class="w-full text-xs md:text-sm text-left text-slate-300">
+                        <thead class="text-xs uppercase bg-slate-950/80 text-slate-400">
+                            <tr>
+                                <th class="px-4 py-3">ID</th>
+                                <th class="px-4 py-3">Age</th>
+                                <th class="px-4 py-3">Department</th>
+                                <th class="px-4 py-3">Class Name</th>
+                                <th class="px-4 py-3">Rating</th>
+                                <th class="px-4 py-3">Recommended</th>
+                                <th class="px-4 py-3">Review Title</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dataTableBody" class="divide-y divide-slate-800/50 bg-slate-900/40">
+                            <!-- JS Populated -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            </div>
+        </section>
+        <section id="tab-reviews" class="space-y-6 hidden"></section>
+        <section id="tab-stats" class="space-y-6 hidden"></section>
+
+
+        <!-- ==================== TAB 2: TABLEAU EMBED SHOWCASE ==================== -->
+        <section id="tab-tableau" class="space-y-6 hidden">
+            <div class="glass-panel p-5 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-table-cells text-brand-500"></i> Tableau Public Frontend Dashboard
+                    </h2>
+                    <p class="text-xs md:text-sm text-slate-400 mt-1">
+                        ส่วนแสดงผล Dashboard จาก Tableau โดยสามารถนำ URL Embed Code มาวางเพื่อแสดงผล Dashboard แบบ Interactive ได้ที่นี่
+                    </p>
+                </div>
+                <!-- Embedded Link Input -->
+                <div class="flex items-center space-x-2 w-full md:w-auto">
+                    <input type="text" id="tableauUrlInput" placeholder="วางลิงก์ Tableau Public URL ที่นี่..." class="bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-xs md:text-sm text-slate-200 focus:outline-none focus:border-brand-500 w-full md:w-80">
+                    <button onclick="updateTableauEmbed()" class="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs md:text-sm font-medium transition-all shadow-md flex-shrink-0">
+                        แสดงผล Viz
+                    </button>
+                </div>
+            </div>
+
+            <!-- Alternative inputs: dashboard image or Tableau workbook file -->
+            <div class="glass-panel p-5 rounded-2xl flex flex-wrap items-center gap-3">
+                <span class="text-xs text-slate-400">หรือ:</span>
+                <label class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs md:text-sm font-medium cursor-pointer"><i class="fa-solid fa-image mr-1.5"></i>อัปโหลดภาพ Dashboard<input id="tbImg" type="file" accept="image/png,image/jpeg,image/webp,image/gif" class="hidden"></label>
+                <label class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs md:text-sm font-medium cursor-pointer"><i class="fa-solid fa-file-code mr-1.5"></i>อัปโหลดไฟล์ Tableau (.twb / .twbx)<input id="tbWb" type="file" accept=".twb,.twbx" class="hidden"></label>
+                <button id="tbClear" type="button" class="hidden px-4 py-2 rounded-xl bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/30 text-xs md:text-sm font-medium"><i class="fa-solid fa-xmark mr-1.5"></i>ล้างการแสดงผล</button>
+                <span class="text-xs text-slate-500">ลากไฟล์มาวางในกรอบด้านล่าง หรือกด Ctrl+V เพื่อวางภาพที่คัดลอกไว้</span>
+                <span id="tbMsg" class="text-xs text-rose-400 w-full"></span>
+            </div>
+
+            <!-- Tableau Display Box -->
+            <div class="glass-panel rounded-2xl p-2 min-h-[620px] flex items-center justify-center relative overflow-hidden" id="tableauVizContainer">
+                <iframe id="tableauIframe" class="w-full h-[650px] rounded-xl border-0 hidden" allowfullscreen></iframe>
+                <img id="tableauImage" class="hidden max-w-full max-h-[650px] rounded-xl object-contain" alt="Tableau Dashboard">
+                <div id="tableauInfo" class="hidden w-full p-4"></div>
+
+                <!-- Default Placeholder View -->
+                <div id="tableauPlaceholder" class="w-full h-[620px] flex flex-col items-center justify-center bg-slate-950/80 rounded-xl border border-slate-800 p-6 text-center space-y-4">
+                    <div class="w-16 h-16 rounded-2xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center text-brand-400 text-3xl shadow-xl">
+                        <i class="fa-solid fa-chart-pie"></i>
+                    </div>
+                    <div class="max-w-md">
+                        <h3 class="text-base font-bold text-white">พร้อมเชื่อมต่อกับ Tableau Dashboard</h3>
+                        <p class="text-xs text-slate-400 mt-1">
+                            นำ URL ของ Dashboard จาก Tableau Public มาวางในช่องด้านบนแล้วกด "แสดงผล Viz" เพื่อนำเสนองาน Dashboard Interactive
+                        </p>
+                    </div>
+                    <div class="w-full max-w-3xl p-5 rounded-xl glass-card border border-slate-800 text-left space-y-3">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                            <span class="text-xs uppercase tracking-wider text-slate-400 font-bold"><i class="fa-solid fa-sliders text-brand-500 mr-1.5"></i> Tableau Architecture Simulation</span>
+                            <span class="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30">LOD Expression Ready</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-center">
+                            <div class="bg-slate-900/90 p-3 rounded-lg border border-slate-800">
+                                <p class="text-xs text-slate-400">Total Avg LOD</p>
+                                <p class="text-base font-bold text-brand-400 mt-1">4.19 Stars</p>
+                            </div>
+                            <div class="bg-slate-900/90 p-3 rounded-lg border border-slate-800">
+                                <p class="text-xs text-slate-400">Dresses Satisfaction</p>
+                                <p class="text-base font-bold text-amber-400 mt-1">80.8% Rec Rate</p>
+                            </div>
+                            <div class="bg-slate-900/90 p-3 rounded-lg border border-slate-800">
+                                <p class="text-xs text-slate-400">Bottoms Performance</p>
+                                <p class="text-base font-bold text-emerald-400 mt-1">88.1% Rec Rate</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 3: DATA STORYTELLING & INSIGHTS ==================== -->
+        <section id="tab-insights" class="space-y-6 hidden">
+            <div class="glass-panel p-6 rounded-2xl bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900">
+                <div class="flex items-start space-x-4">
+                    <div class="w-12 h-12 rounded-2xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-2xl flex-shrink-0"><i class="fa-solid fa-lightbulb"></i></div>
+                    <div><h2 class="text-lg md:text-xl font-bold text-white">Data Storytelling &amp; Business Insights</h2>
+                    <p class="text-xs md:text-sm text-slate-300 mt-1">อ้างอิงตาม Dashboard จริง — ฐานข้อมูลรีวิว 23,472 รายการ</p></div>
+                </div>
+            </div>
+
+            <div class="glass-panel p-6 rounded-2xl space-y-4 border-l-4 border-l-emerald-500">
+                <div class="flex flex-wrap items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-lg"><i class="fa-solid fa-chart-pie"></i></div>
+                    <h3 class="font-bold text-white text-base">1. ภาพรวมสัดส่วนอัตราการแนะนำสินค้า</h3>
+                    <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400">Donut Chart · มุมบนซ้าย</span>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs md:text-sm leading-relaxed">
+                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 text-slate-300"><p class="font-semibold text-emerald-400 mb-2">Data Insight</p><p>จากฐานข้อมูลรีวิวทั้งหมด 23,472 รายการ พบว่ามีสัดส่วนลูกค้าที่แนะนำสินค้า (Recommended) สูงถึง 82.23% (19,300 รายการ) ในขณะที่มีเพียง 17.77% (4,172 รายการ) ที่ไม่แนะนำ</p></div>
+                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 text-slate-300"><p class="font-semibold text-emerald-400 mb-2">Business Storytelling</p><p>ภาพรวมสุขภาพของแบรนด์ถือว่าอยู่ในเกณฑ์แข็งแกร่งมาก สื่อถึงความพึงพอใจในภาพรวมของลูกค้าต่อสินค้า อย่างไรก็ตาม สัดส่วน 17.77% ที่ไม่แนะนำถือเป็นโอกาสสำคัญทางธุรกิจ (Pain Points) ที่ต้องถูกนำมาวิเคราะห์ต่อว่าเกิดจากสินค้าประเภทใด</p></div>
+                </div>
+            </div>
+            <div class="glass-panel p-6 rounded-2xl space-y-4 border-l-4 border-l-amber-500">
+                <div class="flex flex-wrap items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-lg"><i class="fa-solid fa-chart-column"></i></div>
+                    <h3 class="font-bold text-white text-base">2. เปรียบเทียบจำนวนรีวิวและ Rating เฉลี่ย แยกตามหมวดหมู่สินค้า</h3>
+                    <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400">Combo Chart · ด้านซ้ายล่าง</span>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs md:text-sm leading-relaxed">
+                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 text-slate-300"><p class="font-semibold text-amber-400 mb-2">Data Insight</p><ul class="list-disc ml-5 space-y-1.5"><li>หมวด Tops มีปริมาณการรีวิวสูงที่สุด (เกิน 10,000 รีวิว) ตามด้วย Dresses (ประมาณ 6,300 รีวิว)</li><li>เมื่อพิจารณาคะแนนพึงพอใจเฉลี่ย (เส้นสีเหลือง) พบว่า Trend มีคะแนนเฉลี่ยต่ำที่สุด (ต่ำกว่า 3.9 ดาว) ในขณะที่หมวด Bottoms และ Intimate ทำคะแนนความพึงพอใจได้สูงสุด (เฉลี่ยเกือบ 4.3 ดาว)</li></ul></div>
+                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 text-slate-300"><p class="font-semibold text-amber-400 mb-2">Business Storytelling</p><p>สินค้ากลุ่มที่เป็นหมวดหลักและสร้างรายได้สูงอย่าง Tops และ Dresses มีคะแนนเฉลี่ยอยู่ในระดับมาตรฐาน (4.15–4.17 ดาว) แต่หมวด Trend ซึ่งเป็นสินค้าแฟชั่นกระแสกลับได้คะแนนความพึงพอใจต่ำที่สุด สะท้อนว่าสินค้าแฟชั่นตามเทรนด์มักมีปัญหาเรื่องมาตรฐานขนาด (Sizing) หรือคุณภาพเนื้อผ้าที่ไม่ตรงความคาดหวังของลูกค้า</p></div>
+                </div>
+            </div>
+            <div class="glass-panel p-6 rounded-2xl space-y-4 border-l-4 border-l-purple-500">
+                <div class="flex flex-wrap items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center text-lg"><i class="fa-solid fa-table-cells-large"></i></div>
+                    <h3 class="font-bold text-white text-base">3. สัดส่วนปริมาณรีวิวและคะแนนเฉลี่ย รายประเภทสินค้า</h3>
+                    <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400">Treemap · ตรงกลาง</span>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs md:text-sm leading-relaxed">
+                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 text-slate-300"><p class="font-semibold text-purple-400 mb-2">Data Insight</p><ul class="list-disc ml-5 space-y-1.5"><li>ประเภทสินค้าที่มีปริมาณรีวิวหนาแน่นที่สุด คือ Dresses (4.1508 ดาว), Knits (4.1617 ดาว) และ Blouses (4.1540 ดาว)</li><li>ประเภทสินค้าที่ได้คะแนนความพึงพอใจสูงโดดเด่น คือ Jeans (4.3609 ดาว), Lounge (4.3010 ดาว) และ Jackets (4.2955 ดาว)</li></ul></div>
+                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 text-slate-300"><p class="font-semibold text-purple-400 mb-2">Business Storytelling</p><p>สินค้าประเภท Jeans และ Lounge มีการกระจายความพึงพอใจระดับดีเยี่ยม (สีเข้ม) แสดงถึงความคุ้มค่าและความพอดีในการสวมใส่ ซึ่งสามารถนำมาใช้เป็น Hero Products ในการจัดแคมเปญการตลาดหลักได้</p></div>
+                </div>
+            </div>
+            <div class="glass-panel p-6 rounded-2xl space-y-4 border-l-4 border-l-rose-500">
+                <div class="flex flex-wrap items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center text-lg"><i class="fa-solid fa-trophy"></i></div>
+                    <h3 class="font-bold text-white text-base">4. 10 อันดับรหัสสินค้าที่ได้รับ Positive Feedback สูงสุด</h3>
+                    <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400">Bar Chart · มุมบนขวา</span>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs md:text-sm leading-relaxed">
+                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 text-slate-300"><p class="font-semibold text-rose-400 mb-2">Data Insight</p><p>รหัสสินค้า 829 (หมวด Blouses) ได้รับจำนวน Positive Feedback Count สูงสุดทะลุเกิน 1,300 ครั้ง นำห่างรหัสอื่นๆ อย่าง 850, 836 และ 828 อย่างชัดเจน</p></div>
+                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 text-slate-300"><p class="font-semibold text-rose-400 mb-2">Business Storytelling</p><p>รหัสสินค้า 829 ถือเป็น Best Seller &amp; Fan Favorite ที่ทรงคุณค่า ลูกค้าไม่เพียงแต่ชอบสินค้า แต่ยังพร้อมส่งต่อคำชมและช่วยโปรโมตสินค้าให้อีกด้วย ควรคงมาตรฐานการผลิตของสินค้าชิ้นนี้ไว้และพิจารณาเติมสต็อก (Restock) อย่างต่อเนื่อง</p></div>
+                </div>
+            </div>
+            <div class="glass-panel p-6 rounded-2xl space-y-4 border-l-4 border-l-sky-500">
+                <div class="flex flex-wrap items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center text-lg"><i class="fa-solid fa-users"></i></div>
+                    <h3 class="font-bold text-white text-base">5. การกระจายตัวของกลุ่มลูกค้าและความพึงพอใจ แยกตามช่วงอายุ</h3>
+                    <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400">Histogram · มุมขวาล่าง</span>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs md:text-sm leading-relaxed">
+                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 text-slate-300"><p class="font-semibold text-sky-400 mb-2">Data Insight</p><ul class="list-disc ml-5 space-y-1.5"><li>กลุ่มลูกค้าช่วงอายุ 31–40 ปี เป็นกลุ่มที่มีปริมาณการรีวิวสูงสุด (เกือบ 8,000 รายการ) ตามด้วยช่วงอายุ 41–50 ปี (เกือบ 6,000 รายการ)</li><li>ระดับความพึงพอใจเฉลี่ย (เฉดสี) เพิ่มสูงขึ้นตามวัย โดยกลุ่มอายุ 51–60 ปี และ 60+ ปี มีค่าเฉลี่ยคะแนนความพึงพอใจสูงกว่ากลุ่มวัยรุ่นอย่างชัดเจน (เฉดสีส้มเข้ม)</li></ul></div>
+                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 text-slate-300"><p class="font-semibold text-sky-400 mb-2">Business Storytelling</p><p>กลุ่มลูกค้าหลักผู้ขับเคลื่อนยอดขายคือ วัยทำงานและผู้ใหญ่ (31–50 ปี) ในขณะที่กลุ่มผู้สูงอายุ (51+ ปี) แม้จะมีปริมาณสั่งซื้อน้อยกว่า แต่กลับมีความภักดีและพอใจในสินค้าสูงที่สุด การออกแบบดีไซน์และการทำการตลาดจึงควรให้ความสำคัญกับคัตติ้งและไซส์ที่รองรับสรีระของกลุ่มวัย 31-50 ปีเป็นหลัก</p></div>
+                </div>
+            </div>
+
+            <div class="glass-panel p-6 rounded-2xl space-y-4">
+                <h3 class="font-bold text-white text-base md:text-lg flex items-center gap-2"><i class="fa-solid fa-list-check text-brand-500"></i> สรุปข้อเสนอแนะเชิงกลยุทธ์ (Executive Summary)</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 space-y-2"><div class="flex items-center gap-2"><i class="fa-solid fa-screwdriver-wrench text-rose-400"></i><h4 class="font-bold text-white text-sm">1. Fix Trend Items</h4></div><p class="text-xs text-slate-300 leading-relaxed">ปรับปรุง QC และรายละเอียดสินค้าในหมวด Trend ด่วนเพื่อลดรีวิวเชิงลบ</p></div>
+                <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 space-y-2"><div class="flex items-center gap-2"><i class="fa-solid fa-star text-amber-400"></i><h4 class="font-bold text-white text-sm">2. Promote Hero Products</h4></div><p class="text-xs text-slate-300 leading-relaxed">ดันสินค้า Jeans และรหัส 829 (Blouses) เป็นสินค้าชูโรงในการโฆษณา</p></div>
+                <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 space-y-2"><div class="flex items-center gap-2"><i class="fa-solid fa-bullseye text-emerald-400"></i><h4 class="font-bold text-white text-sm">3. Target Core Segment</h4></div><p class="text-xs text-slate-300 leading-relaxed">เน้นการทำการตลาดออนไลน์ไปที่กลุ่มผู้หญิงช่วงอายุ 31–50 ปี ซึ่งเป็นกลุ่มฐานลูกค้าหลักของบริษัท</p></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- JavaScript Logic -->
+    <script src="stats-math.js"></script>
+    <script src="script.js"></script>
+    <script src="reviews.js"></script>
+    <script src="stats.js"></script>
+    <script src="tableau.js"></script>
+    <script src="export.js"></script>
+</body>
+</html>
