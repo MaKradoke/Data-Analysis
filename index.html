@@ -46,9 +46,6 @@
             <button onclick="switchTab('tableau')" id="nav-tableau" class="px-3 md:px-4 py-1.5 rounded-lg text-xs md:text-sm font-medium transition-all duration-200 text-slate-400 hover:text-white">
                 <i class="fa-solid fa-table-cells mr-1.5"></i>Tableau Dashboard
             </button>
-            <button onclick="switchTab('insights')" id="nav-insights" class="px-3 md:px-4 py-1.5 rounded-lg text-xs md:text-sm font-medium transition-all duration-200 text-slate-400 hover:text-white">
-                <i class="fa-solid fa-lightbulb mr-1.5"></i>Data Storytelling
-            </button>
         </nav>
 
         <!-- Status Pill -->
@@ -282,82 +279,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ==================== TAB 3: DATA STORYTELLING & INSIGHTS ==================== -->
-        <section id="tab-insights" class="space-y-6 hidden">
-            <div class="glass-panel p-6 rounded-2xl bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900">
-                <div class="flex items-start space-x-4">
-                    <div class="w-12 h-12 rounded-2xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-2xl flex-shrink-0"><i class="fa-solid fa-lightbulb"></i></div>
-                    <div><h2 class="text-lg md:text-xl font-bold text-white">Data Storytelling &amp; Business Insights</h2>
-                    <p class="text-xs md:text-sm text-slate-300 mt-1">อ้างอิงตาม Dashboard จริง — ฐานข้อมูลรีวิว 23,472 รายการ</p></div>
-                </div>
-            </div>
-
-            <div class="glass-panel p-6 rounded-2xl space-y-4 border-l-4 border-l-emerald-500">
-                <div class="flex flex-wrap items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-lg"><i class="fa-solid fa-chart-pie"></i></div>
-                    <h3 class="font-bold text-white text-base">1. ภาพรวมสัดส่วนอัตราการแนะนำสินค้า</h3>
-                    <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400">Donut Chart · มุมบนซ้าย</span>
-                </div>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs md:text-sm leading-relaxed">
-                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 text-slate-300"><p class="font-semibold text-emerald-400 mb-2">Data Insight</p><p>จากฐานข้อมูลรีวิวทั้งหมด 23,472 รายการ พบว่ามีสัดส่วนลูกค้าที่แนะนำสินค้า (Recommended) สูงถึง 82.23% (19,300 รายการ) ในขณะที่มีเพียง 17.77% (4,172 รายการ) ที่ไม่แนะนำ</p></div>
-                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 text-slate-300"><p class="font-semibold text-emerald-400 mb-2">Business Storytelling</p><p>ภาพรวมสุขภาพของแบรนด์ถือว่าอยู่ในเกณฑ์แข็งแกร่งมาก สื่อถึงความพึงพอใจในภาพรวมของลูกค้าต่อสินค้า อย่างไรก็ตาม สัดส่วน 17.77% ที่ไม่แนะนำถือเป็นโอกาสสำคัญทางธุรกิจ (Pain Points) ที่ต้องถูกนำมาวิเคราะห์ต่อว่าเกิดจากสินค้าประเภทใด</p></div>
-                </div>
-            </div>
-            <div class="glass-panel p-6 rounded-2xl space-y-4 border-l-4 border-l-amber-500">
-                <div class="flex flex-wrap items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-lg"><i class="fa-solid fa-chart-column"></i></div>
-                    <h3 class="font-bold text-white text-base">2. เปรียบเทียบจำนวนรีวิวและ Rating เฉลี่ย แยกตามหมวดหมู่สินค้า</h3>
-                    <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400">Combo Chart · ด้านซ้ายล่าง</span>
-                </div>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs md:text-sm leading-relaxed">
-                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 text-slate-300"><p class="font-semibold text-amber-400 mb-2">Data Insight</p><ul class="list-disc ml-5 space-y-1.5"><li>หมวด Tops มีปริมาณการรีวิวสูงที่สุด (เกิน 10,000 รีวิว) ตามด้วย Dresses (ประมาณ 6,300 รีวิว)</li><li>เมื่อพิจารณาคะแนนพึงพอใจเฉลี่ย (เส้นสีเหลือง) พบว่า Trend มีคะแนนเฉลี่ยต่ำที่สุด (ต่ำกว่า 3.9 ดาว) ในขณะที่หมวด Bottoms และ Intimate ทำคะแนนความพึงพอใจได้สูงสุด (เฉลี่ยเกือบ 4.3 ดาว)</li></ul></div>
-                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 text-slate-300"><p class="font-semibold text-amber-400 mb-2">Business Storytelling</p><p>สินค้ากลุ่มที่เป็นหมวดหลักและสร้างรายได้สูงอย่าง Tops และ Dresses มีคะแนนเฉลี่ยอยู่ในระดับมาตรฐาน (4.15–4.17 ดาว) แต่หมวด Trend ซึ่งเป็นสินค้าแฟชั่นกระแสกลับได้คะแนนความพึงพอใจต่ำที่สุด สะท้อนว่าสินค้าแฟชั่นตามเทรนด์มักมีปัญหาเรื่องมาตรฐานขนาด (Sizing) หรือคุณภาพเนื้อผ้าที่ไม่ตรงความคาดหวังของลูกค้า</p></div>
-                </div>
-            </div>
-            <div class="glass-panel p-6 rounded-2xl space-y-4 border-l-4 border-l-purple-500">
-                <div class="flex flex-wrap items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center text-lg"><i class="fa-solid fa-table-cells-large"></i></div>
-                    <h3 class="font-bold text-white text-base">3. สัดส่วนปริมาณรีวิวและคะแนนเฉลี่ย รายประเภทสินค้า</h3>
-                    <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400">Treemap · ตรงกลาง</span>
-                </div>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs md:text-sm leading-relaxed">
-                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 text-slate-300"><p class="font-semibold text-purple-400 mb-2">Data Insight</p><ul class="list-disc ml-5 space-y-1.5"><li>ประเภทสินค้าที่มีปริมาณรีวิวหนาแน่นที่สุด คือ Dresses (4.1508 ดาว), Knits (4.1617 ดาว) และ Blouses (4.1540 ดาว)</li><li>ประเภทสินค้าที่ได้คะแนนความพึงพอใจสูงโดดเด่น คือ Jeans (4.3609 ดาว), Lounge (4.3010 ดาว) และ Jackets (4.2955 ดาว)</li></ul></div>
-                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 text-slate-300"><p class="font-semibold text-purple-400 mb-2">Business Storytelling</p><p>สินค้าประเภท Jeans และ Lounge มีการกระจายความพึงพอใจระดับดีเยี่ยม (สีเข้ม) แสดงถึงความคุ้มค่าและความพอดีในการสวมใส่ ซึ่งสามารถนำมาใช้เป็น Hero Products ในการจัดแคมเปญการตลาดหลักได้</p></div>
-                </div>
-            </div>
-            <div class="glass-panel p-6 rounded-2xl space-y-4 border-l-4 border-l-rose-500">
-                <div class="flex flex-wrap items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center text-lg"><i class="fa-solid fa-trophy"></i></div>
-                    <h3 class="font-bold text-white text-base">4. 10 อันดับรหัสสินค้าที่ได้รับ Positive Feedback สูงสุด</h3>
-                    <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400">Bar Chart · มุมบนขวา</span>
-                </div>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs md:text-sm leading-relaxed">
-                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 text-slate-300"><p class="font-semibold text-rose-400 mb-2">Data Insight</p><p>รหัสสินค้า 829 (หมวด Blouses) ได้รับจำนวน Positive Feedback Count สูงสุดทะลุเกิน 1,300 ครั้ง นำห่างรหัสอื่นๆ อย่าง 850, 836 และ 828 อย่างชัดเจน</p></div>
-                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 text-slate-300"><p class="font-semibold text-rose-400 mb-2">Business Storytelling</p><p>รหัสสินค้า 829 ถือเป็น Best Seller &amp; Fan Favorite ที่ทรงคุณค่า ลูกค้าไม่เพียงแต่ชอบสินค้า แต่ยังพร้อมส่งต่อคำชมและช่วยโปรโมตสินค้าให้อีกด้วย ควรคงมาตรฐานการผลิตของสินค้าชิ้นนี้ไว้และพิจารณาเติมสต็อก (Restock) อย่างต่อเนื่อง</p></div>
-                </div>
-            </div>
-            <div class="glass-panel p-6 rounded-2xl space-y-4 border-l-4 border-l-sky-500">
-                <div class="flex flex-wrap items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center text-lg"><i class="fa-solid fa-users"></i></div>
-                    <h3 class="font-bold text-white text-base">5. การกระจายตัวของกลุ่มลูกค้าและความพึงพอใจ แยกตามช่วงอายุ</h3>
-                    <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400">Histogram · มุมขวาล่าง</span>
-                </div>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs md:text-sm leading-relaxed">
-                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 text-slate-300"><p class="font-semibold text-sky-400 mb-2">Data Insight</p><ul class="list-disc ml-5 space-y-1.5"><li>กลุ่มลูกค้าช่วงอายุ 31–40 ปี เป็นกลุ่มที่มีปริมาณการรีวิวสูงสุด (เกือบ 8,000 รายการ) ตามด้วยช่วงอายุ 41–50 ปี (เกือบ 6,000 รายการ)</li><li>ระดับความพึงพอใจเฉลี่ย (เฉดสี) เพิ่มสูงขึ้นตามวัย โดยกลุ่มอายุ 51–60 ปี และ 60+ ปี มีค่าเฉลี่ยคะแนนความพึงพอใจสูงกว่ากลุ่มวัยรุ่นอย่างชัดเจน (เฉดสีส้มเข้ม)</li></ul></div>
-                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 text-slate-300"><p class="font-semibold text-sky-400 mb-2">Business Storytelling</p><p>กลุ่มลูกค้าหลักผู้ขับเคลื่อนยอดขายคือ วัยทำงานและผู้ใหญ่ (31–50 ปี) ในขณะที่กลุ่มผู้สูงอายุ (51+ ปี) แม้จะมีปริมาณสั่งซื้อน้อยกว่า แต่กลับมีความภักดีและพอใจในสินค้าสูงที่สุด การออกแบบดีไซน์และการทำการตลาดจึงควรให้ความสำคัญกับคัตติ้งและไซส์ที่รองรับสรีระของกลุ่มวัย 31-50 ปีเป็นหลัก</p></div>
-                </div>
-            </div>
-
-            <div class="glass-panel p-6 rounded-2xl space-y-4">
-                <h3 class="font-bold text-white text-base md:text-lg flex items-center gap-2"><i class="fa-solid fa-list-check text-brand-500"></i> สรุปข้อเสนอแนะเชิงกลยุทธ์ (Executive Summary)</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 space-y-2"><div class="flex items-center gap-2"><i class="fa-solid fa-screwdriver-wrench text-rose-400"></i><h4 class="font-bold text-white text-sm">1. Fix Trend Items</h4></div><p class="text-xs text-slate-300 leading-relaxed">ปรับปรุง QC และรายละเอียดสินค้าในหมวด Trend ด่วนเพื่อลดรีวิวเชิงลบ</p></div>
-                <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 space-y-2"><div class="flex items-center gap-2"><i class="fa-solid fa-star text-amber-400"></i><h4 class="font-bold text-white text-sm">2. Promote Hero Products</h4></div><p class="text-xs text-slate-300 leading-relaxed">ดันสินค้า Jeans และรหัส 829 (Blouses) เป็นสินค้าชูโรงในการโฆษณา</p></div>
-                <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 space-y-2"><div class="flex items-center gap-2"><i class="fa-solid fa-bullseye text-emerald-400"></i><h4 class="font-bold text-white text-sm">3. Target Core Segment</h4></div><p class="text-xs text-slate-300 leading-relaxed">เน้นการทำการตลาดออนไลน์ไปที่กลุ่มผู้หญิงช่วงอายุ 31–50 ปี ซึ่งเป็นกลุ่มฐานลูกค้าหลักของบริษัท</p></div>
                 </div>
             </div>
         </section>

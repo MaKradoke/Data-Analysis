@@ -75,7 +75,7 @@ function pickKey(row, candidates) {
 
 // ---------- Tabs ----------
 function switchTab(tabId) {
-    ['overview', 'reviews', 'stats', 'tableau', 'insights'].forEach(t => {
+    ['overview', 'reviews', 'stats', 'tableau'].forEach(t => {
         document.getElementById(`tab-${t}`).classList.add('hidden');
         const btn = document.getElementById(`nav-${t}`);
         btn.classList.remove('bg-brand-600', 'text-white', 'shadow-md');
